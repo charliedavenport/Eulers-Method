@@ -19,24 +19,12 @@ public class EulersMethod extends Application {
      *
      * TODO: show all 4 quadrants.
      */
+    private static LinearSystem system;
+
     private static double tStep = 0.05;
     private static double X = 5.0;
     private static double Y = 0.0;
     private static double t = 0.0;
-    /*
-     * dx/dt = y
-     */
-    private static double nextX(double x, double y) {
-	double dxdt = y;
-	return x + (dxdt * tStep);
-    }
-    /*
-     * dy/dt = -x - 2y
-     */
-    private static double nextY(double x, double y) {
-	double dydt = -1*x - 2*y;
-	return y + (dydt * tStep);
-    }
 
     //center at (400,300)
     private static double xCoord(double x) {return (x+4.0) * 100.0;}
@@ -68,8 +56,8 @@ public class EulersMethod extends Application {
 	    for(int i=0; i<750; i++) {
 		t += tStep;
 		LineTo lineTo = new LineTo();
-		X = nextX(X,Y);
-		Y = nextY(X,Y);
+		X = system.nextX(X,Y,tStep);
+		Y = system.nextY(X,Y,tStep);
 		//System.out.println(X + ", " + Y); //this spits out an unholy amount of data
 		lineTo.setX(xCoord(X));
 		lineTo.setY(yCoord(Y));
@@ -82,6 +70,36 @@ public class EulersMethod extends Application {
     }
 
     public static void main(String[] args) {
+
+	if (args.length != 1) {
+	    System.out.println("Usage: java EulersMethod [arg]\n" +
+			       "Options:\n\tRepeated\n\tSaddle\n\t" +
+			       "Sink\n\tSource\n\tSpiral");
+	    System.exit(0);
+	}
+	
+	switch (args[0]) {
+	case "Repeated":
+	    system = new Repeated();
+	    break;
+	case "Saddle":
+	    system = new Saddle();
+	    break;
+	case "Source":
+	    system = new Source();
+	    break;
+	case "Sink":
+	    system = new Sink();
+	    break;
+	case "Spiral":
+	    system = new Spiral();
+	    break;
+	default:
+	    System.out.println("Usage: java EulersMethod [arg]\n" +
+			       "Options:\n\tRepeated\n\tSaddle\n\t" +
+			       "Sink\n\tSource\n\tSpiral");
+	    System.exit(0);
+	}
 	launch(args);
     }
 
