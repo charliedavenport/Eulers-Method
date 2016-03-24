@@ -19,25 +19,23 @@ public class EulersMethod extends Application {
      *
      * TODO: show all 4 quadrants.
      */
-    private static double tStep = 0.01;
+    private static double tStep = 0.05;
     private static double X = 5.0;
     private static double Y = 0.0;
     private static double t = 0.0;
     /*
      * dx/dt = y
      */
-    private static double nextX(double x, double y, double t) {
+    private static double nextX(double x, double y) {
 	double dxdt = y;
-	double nextX = x + (dxdt * tStep);
-	return nextX;
+	return x + (dxdt * tStep);
     }
     /*
      * dy/dt = -x - 2y
      */
-    private static double nextY(double x, double y, double t) {
+    private static double nextY(double x, double y) {
 	double dydt = -1*x - 2*y;
-	double nextY = y + (dydt * tStep);
-	return nextY;
+	return y + (dydt * tStep);
     }
 
     //center at (400,300)
@@ -70,8 +68,8 @@ public class EulersMethod extends Application {
 	    for(int i=0; i<750; i++) {
 		t += tStep;
 		LineTo lineTo = new LineTo();
-		X = nextX(X,Y,t);
-		Y = nextY(X,Y,t);
+		X = nextX(X,Y);
+		Y = nextY(X,Y);
 		//System.out.println(X + ", " + Y); //this spits out an unholy amount of data
 		lineTo.setX(xCoord(X));
 		lineTo.setY(yCoord(Y));
